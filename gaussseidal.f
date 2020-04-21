@@ -1,0 +1,58 @@
+C NAME: SAGAR DAM; ROLL: PHYSO1O;  REG: 1612O917O1O
+C GAUSS SEIDAL METHODE PROGRAMME........
+      IMPLICIT DOUBLE PRECISION(A-H,O-Z)
+      DIMENSION A(4,5),X(4)
+      OPEN(2,FILE='OUP')
+      WRITE(*,*)'ENTER THE AUGMENTED MATRIX [4X5]: '
+      DO 10 I=1,4
+      READ(*,*)(A(I,J),J=1,5)
+10    CONTINUE
+      WRITE(2,*)'THE AUGMENTED MATRIX IS: '
+      DO 20 I=1,4
+      WRITE(2,*)(A(I,J),J=1,5)
+20    CONTINUE
+      WRITE(*,*)'ENTER MAXIMUM NO OF Etn: '
+      READ(*,*)MAXIT
+      WRITE(*,*)'ENTER MAXIMUM ALLOWED ERROR: '
+      READ(*,*)E
+      DO 30 I=1,4
+      X(I)=0.D0
+30    CONTINUE
+
+      DO 40 K=1,MAXIT
+      BIG=0.D0
+      DO 50 I=1,4
+      S=0.D0
+      DO 60 J=1,4
+      IF(J.NE.I)THEN
+      S=S+A(I,J)*X(J)
+      ENDIF
+60    CONTINUE
+      TEMP=(A(I,5)-S)/A(I,I)
+      ERR= ABS((TEMP-X(I))/TEMP)
+      IF(ERR.GT.BIG)THEN
+      BIG=ERR
+      ENDIF
+      X(I)=TEMP
+50    CONTINUE
+40    CONTINUE
+
+      IF(BIG.LE.E)THEN
+      WRITE(2,*)'THE SOLUTION CONVERGES TO: '
+      DO 70 I=1,4
+      WRITE(2,*)'X(',I,') = ',X(I)
+70    CONTINUE
+
+      ELSE
+      WRITE(2,*)'THE SOLUTION DOES NOT CONVERGE UPTO GIVEN LIMIT OF
+     &ERROR IN GIVEN NO OF STEPS: '
+      WRITE(2,*)'THE SOLUTION IS: '
+      DO 80 I=1,4
+      WRITE(2,*)'X(',I,') = ',X(I)
+80    CONTINUE
+      ENDIF
+      STOP
+      END
+
+   
+
